@@ -9,8 +9,8 @@ import UIKit
 
 class NewGameViewController: UIViewController {
     
-//    var players = ["Kate", "John", "Betty", "Dave"]
-    var players = ["Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty"]
+    var players = ["Kate", "John", "Betty", "Dave"]
+//    var players = ["Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty"]
     
     //TODO: - Посмотреть демо по Table View
     //TODO: - custom header and footer views
@@ -22,6 +22,7 @@ class NewGameViewController: UIViewController {
         
         view.register(UITableViewCell.self, forCellReuseIdentifier: "PlayerCellId")
         view.register(UITableViewCell.self, forCellReuseIdentifier: "AddPlayerCellId")
+        view.register(PlayersTabelHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: PlayersTabelHeaderFooterView.identifier)
         
         view.backgroundColor     = UIColor(rgb: 0x3B3B3B)
         view.layer.cornerRadius  = 15.0
@@ -35,6 +36,10 @@ class NewGameViewController: UIViewController {
         
         return view
     }()
+    
+    var tableViewHeight: CGFloat {
+        (CGFloat(players.count + 1) * playersTableView.rowHeight) + playersTableView.sectionHeaderHeight
+    }
     
     let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -73,9 +78,10 @@ class NewGameViewController: UIViewController {
     
     private func setupNavigationBar() {
         navigationItem.title = "Game Counter"
+        navigationItem.largeTitleDisplayMode = .always
         
         let cancelLeftBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
-        cancelLeftBarButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.nunito(size: 17.0) as Any], for: .normal)
+        cancelLeftBarButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Nunito-ExtraBold", size: 17.0) as Any], for: .normal)
         
         navigationItem.leftBarButtonItem = cancelLeftBarButton
     }
@@ -87,14 +93,13 @@ class NewGameViewController: UIViewController {
     private func setupTableView() {
         scrollView.addSubview(playersTableView)
         
-        let tableViewHeight: CGFloat = (CGFloat(players.count + 1) * playersTableView.rowHeight) + playersTableView.sectionHeaderHeight
-        
         NSLayoutConstraint.activate([
-            playersTableView.widthAnchor.constraint(equalToConstant: 335.0),
+            playersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20.0),
+            playersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20.0),
             playersTableView.heightAnchor.constraint(equalToConstant: tableViewHeight),
-            playersTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            playersTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             playersTableView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 25.0),
-            playersTableView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -100.0)
+//            playersTableView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -100.0)
 //            playersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25.0)
         ])
         
@@ -116,10 +121,6 @@ class NewGameViewController: UIViewController {
 }
 
 extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
-    
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 2
-//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return players.count + 1
@@ -145,7 +146,7 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerCellId", for: indexPath)
                     
             cell.textLabel?.text = players[indexPath.row]
-            cell.textLabel?.font = UIFont.nunito(size: 20.0)
+            cell.textLabel?.font = UIFont(name: "Nunito-ExtraBold", size: 20.0)
             cell.textLabel?.textColor = .white
             cell.backgroundColor = UIColor(rgb: 0x3B3B3B)
             cell.overrideUserInterfaceStyle = .dark
@@ -156,8 +157,13 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
         
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Players"
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return "Players"
+//    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: PlayersTabelHeaderFooterView.identifier)
+        return header
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -184,6 +190,28 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         players.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+    }
+    
+    // MARK: - deleting rows
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tableView.beginUpdates()
+            
+            players.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            
+//            NSLayoutConstraint.activate([
+//                tableView.heightAnchor.constraint(equalToConstant: tableViewHeight)
+//            ])
+            
+            let heightConstraint = NSLayoutConstraint(item: tableView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: tableViewHeight)
+            heightConstraint.isActive = true
+//            tableView.layoutIfNeeded()
+            
+            tableView.endUpdates()
+        }
     }
     
 }
