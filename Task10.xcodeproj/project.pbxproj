@@ -9,21 +9,27 @@
 /* Begin PBXBuildFile section */
 		53E3303F26D66DF40046E7EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3303E26D66DF40046E7EC /* AppDelegate.swift */; };
 		53E3304126D66DF40046E7EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3304026D66DF40046E7EC /* SceneDelegate.swift */; };
-		53E3304326D66DF40046E7EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3304226D66DF40046E7EC /* ViewController.swift */; };
 		53E3304626D66DF40046E7EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53E3304426D66DF40046E7EC /* Main.storyboard */; };
 		53E3304826D66DF60046E7EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53E3304726D66DF60046E7EC /* Assets.xcassets */; };
 		53E3304B26D66DF60046E7EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53E3304926D66DF60046E7EC /* LaunchScreen.storyboard */; };
+		53E3305626D671EF0046E7EC /* NewGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3305526D671EF0046E7EC /* NewGameViewController.swift */; };
+		53E3305A26D672D20046E7EC /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3305926D672D20046E7EC /* NavigationViewController.swift */; };
+		53E3305F26D67ACD0046E7EC /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3305E26D67ACD0046E7EC /* Helpers.swift */; };
+		53E3306226D687A00046E7EC /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53E3306126D687A00046E7EC /* Nunito-ExtraBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		53E3303B26D66DF40046E7EC /* Task10.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Task10.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53E3303E26D66DF40046E7EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53E3304026D66DF40046E7EC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		53E3304226D66DF40046E7EC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		53E3304526D66DF40046E7EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		53E3304726D66DF60046E7EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		53E3304A26D66DF60046E7EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		53E3304C26D66DF60046E7EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		53E3305526D671EF0046E7EC /* NewGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGameViewController.swift; sourceTree = "<group>"; };
+		53E3305926D672D20046E7EC /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
+		53E3305E26D67ACD0046E7EC /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		53E3306126D687A00046E7EC /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +62,82 @@
 		53E3303D26D66DF40046E7EC /* Task10 */ = {
 			isa = PBXGroup;
 			children = (
-				53E3303E26D66DF40046E7EC /* AppDelegate.swift */,
-				53E3304026D66DF40046E7EC /* SceneDelegate.swift */,
-				53E3304226D66DF40046E7EC /* ViewController.swift */,
-				53E3304426D66DF40046E7EC /* Main.storyboard */,
-				53E3304726D66DF60046E7EC /* Assets.xcassets */,
-				53E3304926D66DF60046E7EC /* LaunchScreen.storyboard */,
+				53E3306026D687490046E7EC /* Fonts */,
+				53E3305726D672770046E7EC /* Modules */,
+				53E3305426D671C80046E7EC /* Controllers */,
+				53E3305226D66FFD0046E7EC /* System */,
+				53E3305326D670070046E7EC /* Util */,
 				53E3304C26D66DF60046E7EC /* Info.plist */,
 			);
 			path = Task10;
+			sourceTree = "<group>";
+		};
+		53E3305226D66FFD0046E7EC /* System */ = {
+			isa = PBXGroup;
+			children = (
+				53E3303E26D66DF40046E7EC /* AppDelegate.swift */,
+				53E3304026D66DF40046E7EC /* SceneDelegate.swift */,
+				53E3304426D66DF40046E7EC /* Main.storyboard */,
+				53E3304726D66DF60046E7EC /* Assets.xcassets */,
+				53E3304926D66DF60046E7EC /* LaunchScreen.storyboard */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		53E3305326D670070046E7EC /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				53E3305E26D67ACD0046E7EC /* Helpers.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		53E3305426D671C80046E7EC /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				53E3305926D672D20046E7EC /* NavigationViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		53E3305726D672770046E7EC /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				53E3305826D672880046E7EC /* NewGame */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		53E3305826D672880046E7EC /* NewGame */ = {
+			isa = PBXGroup;
+			children = (
+				53E3305C26D674760046E7EC /* Views */,
+				53E3305B26D674690046E7EC /* Controllers */,
+			);
+			path = NewGame;
+			sourceTree = "<group>";
+		};
+		53E3305B26D674690046E7EC /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				53E3305526D671EF0046E7EC /* NewGameViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		53E3305C26D674760046E7EC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		53E3306026D687490046E7EC /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				53E3306126D687A00046E7EC /* Nunito-ExtraBold.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,6 +200,7 @@
 				53E3304B26D66DF60046E7EC /* LaunchScreen.storyboard in Resources */,
 				53E3304826D66DF60046E7EC /* Assets.xcassets in Resources */,
 				53E3304626D66DF40046E7EC /* Main.storyboard in Resources */,
+				53E3306226D687A00046E7EC /* Nunito-ExtraBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,9 +211,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53E3304326D66DF40046E7EC /* ViewController.swift in Sources */,
+				53E3305A26D672D20046E7EC /* NavigationViewController.swift in Sources */,
 				53E3303F26D66DF40046E7EC /* AppDelegate.swift in Sources */,
 				53E3304126D66DF40046E7EC /* SceneDelegate.swift in Sources */,
+				53E3305F26D67ACD0046E7EC /* Helpers.swift in Sources */,
+				53E3305626D671EF0046E7EC /* NewGameViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
