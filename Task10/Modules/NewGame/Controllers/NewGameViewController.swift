@@ -9,7 +9,8 @@ import UIKit
 
 class NewGameViewController: UIViewController {
     
-    var players = ["Kate", "John", "Betty", "Dave", "Betty"]
+//    var players = ["Kate", "John", "Betty", "Dave"]
+    var players = ["Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty"]
     
     //TODO: - Посмотреть демо по Table View
     //TODO: - custom header and footer views
@@ -28,7 +29,16 @@ class NewGameViewController: UIViewController {
         view.rowHeight           = 54.0
         view.tintColor           = UIColor.white
         
+        view.isScrollEnabled     = false
         view.isEditing           = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    let scrollView: UIScrollView = {
+        let view = UIScrollView()
+        
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -56,6 +66,7 @@ class NewGameViewController: UIViewController {
     private func setupAppearance() {
         view.backgroundColor = UIColor(rgb: 0x232323)
         
+        setupScrollView()
         setupNavigationBar()
         setupTableView()
     }
@@ -74,7 +85,7 @@ class NewGameViewController: UIViewController {
     }
     
     private func setupTableView() {
-        view.addSubview(playersTableView)
+        scrollView.addSubview(playersTableView)
         
         let tableViewHeight: CGFloat = (CGFloat(players.count + 1) * playersTableView.rowHeight) + playersTableView.sectionHeaderHeight
         
@@ -82,11 +93,24 @@ class NewGameViewController: UIViewController {
             playersTableView.widthAnchor.constraint(equalToConstant: 335.0),
             playersTableView.heightAnchor.constraint(equalToConstant: tableViewHeight),
             playersTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            playersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25.0)
+            playersTableView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 25.0),
+            playersTableView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -100.0)
+//            playersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25.0)
         ])
         
         playersTableView.delegate = self
         playersTableView.dataSource = self
+    }
+    
+    private func setupScrollView() {
+        view.addSubview(scrollView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
 }
