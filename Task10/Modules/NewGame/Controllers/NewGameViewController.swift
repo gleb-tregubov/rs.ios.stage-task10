@@ -9,8 +9,8 @@ import UIKit
 
 class NewGameViewController: UIViewController {
     
-    var players = ["Kate", "John", "Betty", "Dave"]
-//    var players = ["Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty"]
+//    var players = ["Kate", "John", "Betty", "Dave"]
+    var players = ["Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty"]
     
     //TODO: - Посмотреть демо по Table View
     //TODO: - custom header and footer views
@@ -32,6 +32,8 @@ class NewGameViewController: UIViewController {
         
         view.isScrollEnabled     = false
         view.isEditing           = true
+        
+        view.allowsSelectionDuringEditing              = true
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -40,6 +42,8 @@ class NewGameViewController: UIViewController {
     var tableViewHeight: CGFloat {
         (CGFloat(players.count + 1) * playersTableView.rowHeight) + playersTableView.sectionHeaderHeight
     }
+    
+    var tableViewHeightConstraint: NSLayoutConstraint!
     
     let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -93,13 +97,16 @@ class NewGameViewController: UIViewController {
     private func setupTableView() {
         scrollView.addSubview(playersTableView)
         
+        tableViewHeightConstraint = NSLayoutConstraint(item: playersTableView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: tableViewHeight)
+        
         NSLayoutConstraint.activate([
             playersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20.0),
             playersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20.0),
-            playersTableView.heightAnchor.constraint(equalToConstant: tableViewHeight),
+            tableViewHeightConstraint,
+//            playersTableView.heightAnchor.constraint(equalToConstant: tableViewHeight),
 //            playersTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             playersTableView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 25.0),
-//            playersTableView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -100.0)
+            playersTableView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -100.0)
 //            playersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25.0)
         ])
         
@@ -136,6 +143,8 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.text = "Add player"
             cell.textLabel?.font = UIFont(name: "Nunito-SemiBold", size: 16.0)
             cell.textLabel?.textColor = UIColor(rgb: 0x84B8AD)
+            cell.imageView?.image = UIImage(systemName: "plus.circle.fill")
+            cell.imageView?.tintColor = UIColor(rgb: 0x84B8AD)
             cell.backgroundColor = UIColor(rgb: 0x3B3B3B)
             cell.overrideUserInterfaceStyle = .dark
             
@@ -150,6 +159,7 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.textColor = .white
             cell.backgroundColor = UIColor(rgb: 0x3B3B3B)
             cell.overrideUserInterfaceStyle = .dark
+            cell.isEditing = true
             
             return cell
             
@@ -157,17 +167,13 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
         
     }
     
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return "Players"
-//    }
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: PlayersTabelHeaderFooterView.identifier)
         return header
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return indexPath.row != players.count
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -201,17 +207,23 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
             players.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             
+            // Update table view height constraint based on rows count and theirs size
+            tableView.removeConstraint(tableViewHeightConstraint)
+            tableViewHeightConstraint.constant = tableViewHeight
             
-//            NSLayoutConstraint.activate([
-//                tableView.heightAnchor.constraint(equalToConstant: tableViewHeight)
-//            ])
-            
-            let heightConstraint = NSLayoutConstraint(item: tableView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: tableViewHeight)
-            heightConstraint.isActive = true
-//            tableView.layoutIfNeeded()
+            tableViewHeightConstraint.isActive = true
             
             tableView.endUpdates()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row != players.count {
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
+        print("add Player")
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }
