@@ -48,6 +48,8 @@ class NewGameViewController: UIViewController {
     let scrollView: UIScrollView = {
         let view = UIScrollView()
         
+        view.bounces = true
+        view.alwaysBounceVertical = true
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
