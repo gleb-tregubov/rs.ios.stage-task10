@@ -15,7 +15,8 @@ class NavigationViewController: UINavigationController {
         navigationBar.prefersLargeTitles = true
         navigationBar.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: UIColor.white,
-            NSAttributedString.Key.font: UIFont(name: "Nunito", size: 36.0)!
+            NSAttributedString.Key.font: UIFont(name: "Nunito-ExtraBold", size: 36.0)!
+//            NSAttributedString.Key.font: UIFont(name: "Nunito", size: 36.0)!
         ]
         
 //        navigationBar.

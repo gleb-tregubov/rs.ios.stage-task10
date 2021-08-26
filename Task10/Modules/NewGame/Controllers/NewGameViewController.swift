@@ -9,19 +9,24 @@ import UIKit
 
 class NewGameViewController: UIViewController {
     
-    let players = ["Kate", "John", "Betty"]
+    var players = ["Kate", "John", "Betty", "Dave", "Betty"]
+    
+    //TODO: - Посмотреть демо по Table View
+    //TODO: - custom header and footer views
+    //TODO: - custom table view cell
     
     //TODO: - make table view
-    let tableView: UITableView = {
+    let playersTableView: UITableView = {
         let view = UITableView()
         
-        view.register(UITableViewCell.self, forCellReuseIdentifier: "CellId")
+        view.register(UITableViewCell.self, forCellReuseIdentifier: "PlayerCellId")
+        view.register(UITableViewCell.self, forCellReuseIdentifier: "AddPlayerCellId")
         
         view.backgroundColor     = UIColor(rgb: 0x3B3B3B)
         view.layer.cornerRadius  = 15.0
         view.sectionHeaderHeight = 40.0
-        view.sectionFooterHeight = 60.0
         view.rowHeight           = 54.0
+        view.tintColor           = UIColor.white
         
         view.isEditing           = true
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -40,13 +45,12 @@ class NewGameViewController: UIViewController {
         super.viewDidLoad()
 
         setupAppearance()
+//        Fonts.printFonts()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-//        setupTableView()
-//        tableView.frame = view.bounds
     }
     
     private func setupAppearance() {
@@ -54,7 +58,6 @@ class NewGameViewController: UIViewController {
         
         setupNavigationBar()
         setupTableView()
-        
     }
     
     private func setupNavigationBar() {
@@ -71,41 +74,62 @@ class NewGameViewController: UIViewController {
     }
     
     private func setupTableView() {
-        view.addSubview(tableView)
+        view.addSubview(playersTableView)
         
-        let tableViewHeight: CGFloat = (CGFloat(players.count) * tableView.rowHeight) + tableView.sectionHeaderHeight + tableView.sectionFooterHeight
-        print(tableViewHeight)
+        let tableViewHeight: CGFloat = (CGFloat(players.count + 1) * playersTableView.rowHeight) + playersTableView.sectionHeaderHeight
         
         NSLayoutConstraint.activate([
-            tableView.widthAnchor.constraint(equalToConstant: 335.0),
-            tableView.heightAnchor.constraint(equalToConstant: tableViewHeight),
-            tableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25.0)
+            playersTableView.widthAnchor.constraint(equalToConstant: 335.0),
+            playersTableView.heightAnchor.constraint(equalToConstant: tableViewHeight),
+            playersTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            playersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25.0)
         ])
         
-        tableView.delegate = self
-        tableView.dataSource = self
+        playersTableView.delegate = self
+        playersTableView.dataSource = self
     }
 
 }
 
 extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
     
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 2
+//    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return players.count
+        return players.count + 1
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellId", for: indexPath)
+        if indexPath.row == players.count {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AddPlayerCellId", for: indexPath)
+            
+            cell.textLabel?.text = "Add player"
+            cell.textLabel?.font = UIFont(name: "Nunito-SemiBold", size: 16.0)
+            cell.textLabel?.textColor = UIColor(rgb: 0x84B8AD)
+            cell.backgroundColor = UIColor(rgb: 0x3B3B3B)
+            cell.overrideUserInterfaceStyle = .dark
+            
+            return cell
+            
+        } else {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerCellId", for: indexPath)
+                    
+            cell.textLabel?.text = players[indexPath.row]
+            cell.textLabel?.font = UIFont.nunito(size: 20.0)
+            cell.textLabel?.textColor = .white
+            cell.backgroundColor = UIColor(rgb: 0x3B3B3B)
+            cell.overrideUserInterfaceStyle = .dark
+            
+            return cell
+            
+        }
         
-        cell.textLabel?.text = players[indexPath.row]
-        cell.textLabel?.font = UIFont.nunito(size: 20.0)
-        cell.textLabel?.textColor = .white
-        cell.backgroundColor = UIColor(rgb: 0x3B3B3B)
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -116,13 +140,26 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
         return true
     }
     
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.row != players.count
+    }
+    
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .none
+        return indexPath.row != players.count ? .delete : .insert
     }
     
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return "Add Player"
+    // MARK: - mooving rows
+    
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        if proposedDestinationIndexPath.row == players.count{
+            return IndexPath(row: players.count - 1, section: 0)
+        } else {
+            return proposedDestinationIndexPath
+        }
     }
     
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        players.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+    }
     
 }
