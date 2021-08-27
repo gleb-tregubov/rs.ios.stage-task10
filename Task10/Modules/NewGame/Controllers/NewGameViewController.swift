@@ -17,6 +17,8 @@ class NewGameViewController: UIViewController {
     //TODO: - custom header and footer views
     //TODO: - custom table view cell
     
+    var addPlayerViewController = AddPlayerViewController()
+    
     // MARK: - Views
     let playersTableView: UITableView = {
         let view = UITableView()
@@ -118,6 +120,16 @@ class NewGameViewController: UIViewController {
             playersTableView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 25.0),
             tableViewBottomConstraint
         ])
+        
+        // TODO: - Refactoring
+        
+        // NewGameViewController закрыть протоколом с нужными пропертями в виде модели и другими
+        // PlayersTableDelegate подписать под tableViewDataSource, и talbeViewDelegate
+        // let playersTableDelegate = PlayersTableDelegate()
+        // playersTableDelegate.parent = self (Проперти parent сделать weak варом) || нет, делегата может не быть потэтому у self контроллера делегатное проперти - weak var
+        // playersTableView.delegate = playersTableDelegate
+        // playersTableView.delegate = playersTableDelegate
+        
         
         playersTableView.delegate = self
         playersTableView.dataSource = self
@@ -257,11 +269,15 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
     
     // MARK: - Adding rows
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("add Player")
+        
         if indexPath.row != players.count {
             tableView.deselectRow(at: indexPath, animated: true)
             return
         }
-        print("add Player")
+        
+        addPlayerViewController.newGameViewController = self
+        navigationController?.pushViewController(addPlayerViewController, animated: true)
         
         tableView.beginUpdates()
         
