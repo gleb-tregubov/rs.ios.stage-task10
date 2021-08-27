@@ -17,7 +17,7 @@ class NewGameViewController: UIViewController {
     //TODO: - custom header and footer views
     //TODO: - custom table view cell
     
-    //TODO: - make table view
+    // MARK: - Views
     let playersTableView: UITableView = {
         let view = UITableView()
         
@@ -44,14 +44,6 @@ class NewGameViewController: UIViewController {
         (CGFloat(players.count + 1) * playersTableView.rowHeight) + playersTableView.sectionHeaderHeight
     }
     
-//    var tableViewBottomMargin: CGFloat {
-//        if tableViewHeight < CGFloat(65) {
-//            return CGFloat(65)
-//        } else {
-//            return view.frame.size.height - tableViewHeight - (navigationController?.navigationBar.frame.size.height ?? CGFloat(0)) - startButton.frame.size.height - CGFloat(65) - CGFloat(25) - CGFloat(80)
-//        }
-//    }
-    
     var tableViewHeightConstraint: NSLayoutConstraint!
     var tableViewBottomConstraint: NSLayoutConstraint!
     
@@ -65,7 +57,6 @@ class NewGameViewController: UIViewController {
         return view
     }()
     
-    //TODO: - make custom Start Game Button
     let startButton: UIButton = {
         let view = StartGameButton()
         
@@ -73,19 +64,22 @@ class NewGameViewController: UIViewController {
         
         return view
     }()
-
+    
+    
+    // MARK: - LifeCylce
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupAppearance()
-//        Fonts.printFonts()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-    }
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//
+//    }
     
+    
+    // MARK: - Views Configuration
     private func setupAppearance() {
         view.backgroundColor = UIColor(rgb: 0x232323)
         
@@ -143,14 +137,12 @@ class NewGameViewController: UIViewController {
     private func setupStartGameButton() {
         scrollView.addSubview(startButton)
         
-        let bottomConstraint = NSLayoutConstraint(item: startButton, attribute: .bottom, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1.0, constant: -35.0)
-//        bottomConstraint.priority = UILayoutPriority.required
+//        let bottomConstraint = NSLayoutConstraint(item: startButton, attribute: .bottom, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1.0, constant: -35.0)
         
         NSLayoutConstraint.activate([
-//            startButton.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20.0),
-//            startButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20.0),
-            bottomConstraint,
+//            bottomConstraint,
             startButton.heightAnchor.constraint(equalToConstant: 65.0),
+            startButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -45.0),
             startButton.widthAnchor.constraint(equalToConstant: 335.0),
             startButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
@@ -160,10 +152,10 @@ class NewGameViewController: UIViewController {
 
 extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
     
+    // MARK: - Table View Data Source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return players.count + 1
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -198,6 +190,7 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
         
     }
     
+    // MARK: - Table View Delegate
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: PlayersTabelHeaderFooterView.identifier)
         return header
@@ -215,8 +208,7 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
         return indexPath.row != players.count ? .delete : .insert
     }
     
-    // MARK: - mooving rows
-    
+    // MARK: - Mooving Rows
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
         if proposedDestinationIndexPath.row == players.count{
             return IndexPath(row: players.count - 1, section: 0)
@@ -229,8 +221,7 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
         players.swapAt(sourceIndexPath.row, destinationIndexPath.row)
     }
     
-    // MARK: - deleting rows
-    
+    // MARK: - Deleting Rows
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             tableView.beginUpdates()
@@ -239,11 +230,9 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
             tableView.deleteRows(at: [indexPath], with: .fade)
             
             // Update table view height and spacing constraints based on rows count and theirs size
-            
-            if players.count < 7 {
+            if players.count < 6 {
                 let tableViewButtonSpace = tableViewBottomConstraint.constant - tableView.rowHeight
                 
-    //            tableView.removeConstraint(tableViewHeightConstraint)
                 tableView.removeConstraints([tableViewHeightConstraint, tableViewBottomConstraint])
                 tableViewHeightConstraint.constant = tableViewHeight
                 tableViewBottomConstraint.constant = tableViewButtonSpace
@@ -261,22 +250,12 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
                 playersTableView.layoutIfNeeded()
                 startButton.layoutIfNeeded()
             }
-//            let tableViewButtonSpace = tableViewBottomConstraint.constant - tableView.rowHeight
-//
-////            tableView.removeConstraint(tableViewHeightConstraint)
-//            tableView.removeConstraints([tableViewHeightConstraint, tableViewBottomConstraint])
-//            tableViewHeightConstraint.constant = tableViewHeight
-//            tableViewBottomConstraint.constant = tableViewButtonSpace
-//
-//            tableViewHeightConstraint.isActive = true
-//            tableViewBottomConstraint.isActive = true
             
             tableView.endUpdates()
         }
     }
     
     // MARK: - Adding rows
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row != players.count {
             tableView.deselectRow(at: indexPath, animated: true)
@@ -290,7 +269,6 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
         tableView.insertRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .fade)
         
         // Update table view height and spacing constraints based on rows count and theirs size
-        
         if players.count < 7 {
             let tableViewButtonSpace = tableViewBottomConstraint.constant + tableView.rowHeight
             
@@ -306,18 +284,6 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
             
             tableView.deselectRow(at: indexPath, animated: true)
         } else {
-//            let tableViewButtonSpace = tableViewBottomConstraint.constant - tableView.rowHeight
-//
-//            tableView.removeConstraints([tableViewHeightConstraint, tableViewBottomConstraint])
-//            tableViewHeightConstraint.constant = tableViewHeight
-//            tableViewBottomConstraint.constant = tableViewButtonSpace
-//
-//            tableViewHeightConstraint.isActive = true
-//            tableViewBottomConstraint.isActive = true
-//
-//            tableView.endUpdates()
-//
-//            tableView.deselectRow(at: indexPath, animated: true)
             
             tableView.removeConstraint(tableViewHeightConstraint)
             tableViewHeightConstraint.constant = tableViewHeight
