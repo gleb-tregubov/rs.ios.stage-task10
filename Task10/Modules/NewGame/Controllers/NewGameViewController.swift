@@ -25,6 +25,8 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
         
         view.register(UITableViewCell.self, forCellReuseIdentifier: "PlayerCellId")
         view.register(UITableViewCell.self, forCellReuseIdentifier: "AddPlayerCellId")
+        view.register(PlayerTableViewCell.self, forCellReuseIdentifier: PlayerTableViewCell.reuseIdentifier)
+        
         view.register(PlayersTabelHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: PlayersTabelHeaderFooterView.identifier)
         
         view.backgroundColor     = UIColor(rgb: 0x3B3B3B)
@@ -74,11 +76,6 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
 
         setupAppearance()
     }
-    
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//
-//    }
     
     
     // MARK: - Views Configuration
@@ -153,6 +150,8 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
         
 //        let bottomConstraint = NSLayoutConstraint(item: startButton, attribute: .bottom, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1.0, constant: -35.0)
         
+        startButton.addTarget(self, action: #selector(startButtonHandler), for: .touchUpInside)
+        
         NSLayoutConstraint.activate([
 //            bottomConstraint,
             startButton.heightAnchor.constraint(equalToConstant: 65.0),
@@ -160,6 +159,10 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
             startButton.widthAnchor.constraint(equalToConstant: 335.0),
             startButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+    }
+    
+    @objc private func startButtonHandler() {
+        print(players)
     }
 
 }
@@ -189,16 +192,25 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
             
         } else {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerCellId", for: indexPath)
-                    
-            cell.textLabel?.text = players[indexPath.row]
-            cell.textLabel?.font = UIFont(name: "Nunito-ExtraBold", size: 20.0)
-            cell.textLabel?.textColor = .white
-            cell.backgroundColor = UIColor(rgb: 0x3B3B3B)
-            cell.overrideUserInterfaceStyle = .dark
-            cell.isEditing = true
+            let cell = tableView.dequeueReusableCell(withIdentifier: PlayerTableViewCell.reuseIdentifier) as! PlayerTableViewCell
+            
+            cell.playerNameTextField.text = players[indexPath.row]
+            cell.playerNameTextField.delegate = self
+//            hiddenWhenTappedAround()
+            cell.playerNameTextField.addTarget(self, action: #selector(playerNameChanged(_ :)), for: .editingChanged)
             
             return cell
+            
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerCellId", for: indexPath)
+//
+//            cell.textLabel?.text = players[indexPath.row]
+//            cell.textLabel?.font = UIFont(name: "Nunito-ExtraBold", size: 20.0)
+//            cell.textLabel?.textColor = .white
+//            cell.backgroundColor = UIColor(rgb: 0x3B3B3B)
+//            cell.overrideUserInterfaceStyle = .dark
+//            cell.isEditing = true
+//
+//            return cell
             
         }
         
@@ -357,4 +369,36 @@ extension NewGameViewController {
         playersTableView.endUpdates()
         
     }
+}
+
+
+// MARK: - Player Name Text Field
+extension NewGameViewController: UITextFieldDelegate {
+    @objc func playerNameChanged(_ sender:Any) {
+
+        let playerNameTextField = sender as! UITextField
+
+        let cell = (playerNameTextField.superview)?.superview as! PlayerTableViewCell
+
+        let indexPath = playersTableView.indexPath(for: cell)!
+
+        let updatePalyerName = cell.playerNameTextField.text
+
+        players[indexPath.row] = updatePalyerName ?? ""
+
+//        playersTableView.reloadRows(at: [indexPath], with: .fade)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+    
+//    private func hiddenWhenTappedAround() {
+//        let gesture = UITapGestureRecognizer(target: self, action: #selector(hide))
+//        view.addGestureRecognizer(gesture)
+//    }
+//
+//    @objc private func hide() {
+//        view.endEditing(true)
+//    }
 }

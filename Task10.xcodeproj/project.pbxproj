@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		535B10AB26D959DB007E9F48 /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B10AA26D959DB007E9F48 /* PlayerTableViewCell.swift */; };
 		53E3303F26D66DF40046E7EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3303E26D66DF40046E7EC /* AppDelegate.swift */; };
 		53E3304126D66DF40046E7EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3304026D66DF40046E7EC /* SceneDelegate.swift */; };
 		53E3304626D66DF40046E7EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53E3304426D66DF40046E7EC /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		535B10AA26D959DB007E9F48 /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
 		53E3303B26D66DF40046E7EC /* Task10.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Task10.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53E3303E26D66DF40046E7EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53E3304026D66DF40046E7EC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 			children = (
 				53E3306526D74ECA0046E7EC /* PlayersTabelHeaderFooterView.swift */,
 				53E3306926D7E6490046E7EC /* StartGameButton.swift */,
+				535B10AA26D959DB007E9F48 /* PlayerTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 			files = (
 				53E3306A26D7E6490046E7EC /* StartGameButton.swift in Sources */,
 				53E3305A26D672D20046E7EC /* NavigationViewController.swift in Sources */,
+				535B10AB26D959DB007E9F48 /* PlayerTableViewCell.swift in Sources */,
 				53E3303F26D66DF40046E7EC /* AppDelegate.swift in Sources */,
 				53E3304126D66DF40046E7EC /* SceneDelegate.swift in Sources */,
 				53E3305F26D67ACD0046E7EC /* Helpers.swift in Sources */,
