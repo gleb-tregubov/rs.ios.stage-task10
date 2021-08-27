@@ -19,9 +19,9 @@ class PlayerNameTextField: UITextField {
         textAlignment = .left
         placeholder = "Player Name"
         backgroundColor = UIColor(rgb: 0x3B3B3B)
-        
-        setContentHuggingPriority(.defaultLow, for: .horizontal)
-//        setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        keyboardAppearance = UIKeyboardAppearance.dark
+        keyboardType = UIKeyboardType.alphabet
+        returnKeyType = UIReturnKeyType.done
         
         translatesAutoresizingMaskIntoConstraints = false
         becomeFirstResponder()

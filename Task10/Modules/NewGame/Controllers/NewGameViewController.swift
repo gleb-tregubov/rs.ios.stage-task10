@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewGameViewController: UIViewController {
+class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
     
 //    var players = [String]()
     var players = ["Kate", "John", "Betty"]
@@ -97,6 +97,8 @@ class NewGameViewController: UIViewController {
         
         let cancelLeftBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         cancelLeftBarButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Nunito-ExtraBold", size: 17.0) as Any], for: .normal)
+        cancelLeftBarButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Nunito-ExtraBold", size: 17.0) as Any], for: .highlighted)
+        
         
         navigationItem.leftBarButtonItem = cancelLeftBarButton
     }
@@ -279,16 +281,58 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
         addPlayerViewController.newGameViewController = self
         navigationController?.pushViewController(addPlayerViewController, animated: true)
         
-        tableView.beginUpdates()
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        players.append("new player")
-        tableView.insertRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .fade)
+//        tableView.beginUpdates()
+//
+//        players.append("new player")
+//        tableView.insertRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .fade)
+//
+//        // Update table view height and spacing constraints based on rows count and theirs size
+//        if players.count < 7 {
+//            let tableViewButtonSpace = tableViewBottomConstraint.constant + tableView.rowHeight
+//
+//            tableView.removeConstraints([tableViewHeightConstraint, tableViewBottomConstraint])
+//            tableViewHeightConstraint.constant = tableViewHeight
+//            tableViewBottomConstraint.constant = tableViewButtonSpace
+//
+//            tableViewHeightConstraint.isActive = true
+//            tableViewBottomConstraint.isActive = true
+//
+//            playersTableView.layoutIfNeeded()
+//            startButton.layoutIfNeeded()
+//
+//            tableView.deselectRow(at: indexPath, animated: true)
+//        } else {
+//
+//            tableView.removeConstraint(tableViewHeightConstraint)
+//            tableViewHeightConstraint.constant = tableViewHeight
+//            tableViewHeightConstraint.isActive = true
+//
+//            playersTableView.layoutIfNeeded()
+//            startButton.layoutIfNeeded()
+//
+//        }
+//
+//        tableView.endUpdates()
+    }
+    
+}
+
+// MARK: - Public Interface | NewGameViewController Protocol
+extension NewGameViewController {
+    func addNewPlayer(name newPlayer: String) {
+        
+        playersTableView.beginUpdates()
+        
+        players.append(newPlayer)
+        playersTableView.insertRows(at: [IndexPath(row: players.count - 1, section: 0)], with: .fade) // НЕУВЕРЕН
         
         // Update table view height and spacing constraints based on rows count and theirs size
         if players.count < 7 {
-            let tableViewButtonSpace = tableViewBottomConstraint.constant + tableView.rowHeight
+            let tableViewButtonSpace = tableViewBottomConstraint.constant + playersTableView.rowHeight
             
-            tableView.removeConstraints([tableViewHeightConstraint, tableViewBottomConstraint])
+            playersTableView.removeConstraints([tableViewHeightConstraint, tableViewBottomConstraint])
             tableViewHeightConstraint.constant = tableViewHeight
             tableViewBottomConstraint.constant = tableViewButtonSpace
             
@@ -298,10 +342,10 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
             playersTableView.layoutIfNeeded()
             startButton.layoutIfNeeded()
             
-            tableView.deselectRow(at: indexPath, animated: true)
+            playersTableView.deselectRow(at: IndexPath(row: players.count - 1, section: 0), animated: true)
         } else {
             
-            tableView.removeConstraint(tableViewHeightConstraint)
+            playersTableView.removeConstraint(tableViewHeightConstraint)
             tableViewHeightConstraint.constant = tableViewHeight
             tableViewHeightConstraint.isActive = true
             
@@ -310,7 +354,7 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
             
         }
         
-        tableView.endUpdates()
+        playersTableView.endUpdates()
+        
     }
-    
 }
