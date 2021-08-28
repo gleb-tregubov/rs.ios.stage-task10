@@ -12,6 +12,7 @@ class StartGameButton: UIButton {
     private func setupAppearance() {
         setTitle("Start game", for: .normal)
         setTitleColor(UIColor.white, for: .normal)
+        setTitleColor(UIColor(rgb: 0x54786F), for: .highlighted) // Временно
         titleLabel?.textAlignment = .center
         titleLabel?.font = UIFont(name: "Nunito-ExtraBold", size: 24.0)
         backgroundColor = UIColor(rgb: 0x84B8AD)
@@ -44,5 +45,7 @@ class StartGameButton: UIButton {
         super.init(coder: coder)
         setupAppearance()
     }
+    
+    
 
 }

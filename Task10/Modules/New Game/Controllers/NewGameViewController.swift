@@ -18,6 +18,7 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
     //TODO: - custom table view cell
     
     var addPlayerViewController = AddPlayerViewController()
+    var gameProcessViewVontroller = GameProcessViewController()
     
     // MARK: - Views
     let playersTableView: UITableView = {
@@ -150,12 +151,9 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
     private func setupStartGameButton() {
         scrollView.addSubview(startButton)
         
-//        let bottomConstraint = NSLayoutConstraint(item: startButton, attribute: .bottom, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1.0, constant: -35.0)
-        
         startButton.addTarget(self, action: #selector(startButtonHandler), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-//            bottomConstraint,
             startButton.heightAnchor.constraint(equalToConstant: 65.0),
             startButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -45.0),
             startButton.widthAnchor.constraint(equalToConstant: 335.0),
@@ -165,6 +163,9 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
     
     @objc private func startButtonHandler() {
         print(players)
+        
+        gameProcessViewVontroller.newGameViewController = self
+        navigationController?.pushViewController(gameProcessViewVontroller, animated: true)
     }
 
 }
@@ -296,39 +297,6 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
         navigationController?.pushViewController(addPlayerViewController, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)
-        
-//        tableView.beginUpdates()
-//
-//        players.append("new player")
-//        tableView.insertRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .fade)
-//
-//        // Update table view height and spacing constraints based on rows count and theirs size
-//        if players.count < 7 {
-//            let tableViewButtonSpace = tableViewBottomConstraint.constant + tableView.rowHeight
-//
-//            tableView.removeConstraints([tableViewHeightConstraint, tableViewBottomConstraint])
-//            tableViewHeightConstraint.constant = tableViewHeight
-//            tableViewBottomConstraint.constant = tableViewButtonSpace
-//
-//            tableViewHeightConstraint.isActive = true
-//            tableViewBottomConstraint.isActive = true
-//
-//            playersTableView.layoutIfNeeded()
-//            startButton.layoutIfNeeded()
-//
-//            tableView.deselectRow(at: indexPath, animated: true)
-//        } else {
-//
-//            tableView.removeConstraint(tableViewHeightConstraint)
-//            tableViewHeightConstraint.constant = tableViewHeight
-//            tableViewHeightConstraint.isActive = true
-//
-//            playersTableView.layoutIfNeeded()
-//            startButton.layoutIfNeeded()
-//
-//        }
-//
-//        tableView.endUpdates()
     }
     
 }

@@ -22,6 +22,9 @@
 		53E3306A26D7E6490046E7EC /* StartGameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3306926D7E6490046E7EC /* StartGameButton.swift */; };
 		53E3306E26D90FE50046E7EC /* AddPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3306D26D90FE50046E7EC /* AddPlayerViewController.swift */; };
 		53E3307126D91A6E0046E7EC /* PlayerNameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3307026D91A6E0046E7EC /* PlayerNameTextField.swift */; };
+		53EC7E9426DA677D0055565A /* GameProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC7E9326DA677D0055565A /* GameProcessViewController.swift */; };
+		53EC7E9726DA998C0055565A /* PlayerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC7E9626DA998C0055565A /* PlayerCollectionViewCell.swift */; };
+		53EC7E9926DA9DD90055565A /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53EC7E9826DA9DD90055565A /* Nunito-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,9 @@
 		53E3306926D7E6490046E7EC /* StartGameButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGameButton.swift; sourceTree = "<group>"; };
 		53E3306D26D90FE50046E7EC /* AddPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerViewController.swift; sourceTree = "<group>"; };
 		53E3307026D91A6E0046E7EC /* PlayerNameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerNameTextField.swift; sourceTree = "<group>"; };
+		53EC7E9326DA677D0055565A /* GameProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameProcessViewController.swift; sourceTree = "<group>"; };
+		53EC7E9626DA998C0055565A /* PlayerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCollectionViewCell.swift; sourceTree = "<group>"; };
+		53EC7E9826DA9DD90055565A /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,19 +121,20 @@
 		53E3305726D672770046E7EC /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				53EC7E9126DA673B0055565A /* Game Process */,
 				53E3306B26D90FB40046E7EC /* Add Player */,
-				53E3305826D672880046E7EC /* NewGame */,
+				53E3305826D672880046E7EC /* New Game */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
 		};
-		53E3305826D672880046E7EC /* NewGame */ = {
+		53E3305826D672880046E7EC /* New Game */ = {
 			isa = PBXGroup;
 			children = (
 				53E3305C26D674760046E7EC /* Views */,
 				53E3305B26D674690046E7EC /* Controllers */,
 			);
-			path = NewGame;
+			path = "New Game";
 			sourceTree = "<group>";
 		};
 		53E3305B26D674690046E7EC /* Controllers */ = {
@@ -153,6 +160,7 @@
 			children = (
 				53E3306726D751690046E7EC /* Nunito-SemiBold.ttf */,
 				53E3306126D687A00046E7EC /* Nunito-ExtraBold.ttf */,
+				53EC7E9826DA9DD90055565A /* Nunito-Bold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -180,6 +188,31 @@
 				53E3307026D91A6E0046E7EC /* PlayerNameTextField.swift */,
 			);
 			path = VIews;
+			sourceTree = "<group>";
+		};
+		53EC7E9126DA673B0055565A /* Game Process */ = {
+			isa = PBXGroup;
+			children = (
+				53EC7E9526DA99740055565A /* Views */,
+				53EC7E9226DA67570055565A /* Controllers */,
+			);
+			path = "Game Process";
+			sourceTree = "<group>";
+		};
+		53EC7E9226DA67570055565A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				53EC7E9326DA677D0055565A /* GameProcessViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		53EC7E9526DA99740055565A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				53EC7E9626DA998C0055565A /* PlayerCollectionViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +276,7 @@
 				53E3304826D66DF60046E7EC /* Assets.xcassets in Resources */,
 				53E3304626D66DF40046E7EC /* Main.storyboard in Resources */,
 				53E3306226D687A00046E7EC /* Nunito-ExtraBold.ttf in Resources */,
+				53EC7E9926DA9DD90055565A /* Nunito-Bold.ttf in Resources */,
 				53E3306826D751690046E7EC /* Nunito-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,7 +293,9 @@
 				535B10AB26D959DB007E9F48 /* PlayerTableViewCell.swift in Sources */,
 				53E3303F26D66DF40046E7EC /* AppDelegate.swift in Sources */,
 				53E3304126D66DF40046E7EC /* SceneDelegate.swift in Sources */,
+				53EC7E9726DA998C0055565A /* PlayerCollectionViewCell.swift in Sources */,
 				53E3305F26D67ACD0046E7EC /* Helpers.swift in Sources */,
+				53EC7E9426DA677D0055565A /* GameProcessViewController.swift in Sources */,
 				53E3307126D91A6E0046E7EC /* PlayerNameTextField.swift in Sources */,
 				53E3306E26D90FE50046E7EC /* AddPlayerViewController.swift in Sources */,
 				53E3306626D74ECA0046E7EC /* PlayersTabelHeaderFooterView.swift in Sources */,
