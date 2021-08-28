@@ -137,6 +137,8 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
     private func setupScrollView() {
         view.addSubview(scrollView)
         
+//        subscribeForKeyboardNotifications()
+        
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -372,8 +374,9 @@ extension NewGameViewController {
 }
 
 
-// MARK: - Player Name Text Field
+// MARK: - Player Name Text Field | UITextField Delegate
 extension NewGameViewController: UITextFieldDelegate {
+    
     @objc func playerNameChanged(_ sender:Any) {
 
         let playerNameTextField = sender as! UITextField
@@ -386,19 +389,31 @@ extension NewGameViewController: UITextFieldDelegate {
 
         players[indexPath.row] = updatePalyerName ?? ""
 
-//        playersTableView.reloadRows(at: [indexPath], with: .fade)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
     
-//    private func hiddenWhenTappedAround() {
-//        let gesture = UITapGestureRecognizer(target: self, action: #selector(hide))
-//        view.addGestureRecognizer(gesture)
-//    }
-//
-//    @objc private func hide() {
-//        view.endEditing(true)
-//    }
+    //MARK: - Keyboard Interactions
+    
+    private func subscribeForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRect = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRect.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: keyboardHeight - view.safeAreaInsets.bottom), animated: true)
+            
+        }
+    }
+    
+    @objc private func keyboardWillHide(notification: Notification) {
+        scrollView.setContentOffset(CGPoint.zero, animated: true)
+    }
+    
 }
