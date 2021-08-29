@@ -75,6 +75,43 @@ class GameProcessViewController: UIViewController {
     
     let timerLabel = TimerLabel(state: .play)
     
+    let pageControlStackView: UIStackView = {
+        let view = UIStackView()
+        
+        view.axis = .horizontal
+        view.spacing = 5.0
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    let uturnBackwardButton: UIButton = {
+        let view = UIButton()
+        
+        let configuration = UIImage.SymbolConfiguration(pointSize: 20.0, weight: .semibold, scale: .medium)
+        
+        view.setImage(UIImage(systemName: "arrow.uturn.backward", withConfiguration: configuration), for: .normal)
+        view.tintColor = UIColor(rgb: 0xDEDEDE)
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.addTarget(self, action: #selector(uturnBackwardButtonHandler(_:)), for: .touchUpInside)
+        
+        return view
+    }()
+    
+    let bottomControlsStackView: UIStackView = {
+        let view = UIStackView()
+        
+        view.axis = .vertical
+        view.alignment = .center
+        view.distribution = .equalSpacing
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
 //    let pageControlUndoStackView: UIStackView = {
 //        let view = UIStackView()
 //
@@ -84,19 +121,25 @@ class GameProcessViewController: UIViewController {
 //        return view
 //    }()
     
-    let pageControl: UIPageControl = {
-        let view = UIPageControl()
-        
-        view.pageIndicatorTintColor = .gray
-        view.currentPageIndicatorTintColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
+//    let pageControl: UIPageControl = {
+//        let view = UIPageControl()
+//
+//        view.pageIndicatorTintColor = .gray
+//        view.currentPageIndicatorTintColor = .white
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//
+//        return view
+//    }()
+//
     var currentPage = 0 {
         didSet {
-            pageControl.currentPage = currentPage
+            if pageControlStackView.arrangedSubviews.count > 0 {
+                pageControlStackView.arrangedSubviews.forEach { view in
+                    let label = view as! UILabel
+                    label.textColor = UIColor(rgb: 0x3B3B3B)
+                }
+                (pageControlStackView.arrangedSubviews[currentPage] as! UILabel).textColor = UIColor(rgb: 0xDEDEDE)
+            }
         }
     }
 
@@ -114,7 +157,9 @@ class GameProcessViewController: UIViewController {
         setupScoreButtonsStackView()
         setupControlsGameProcessStackView()
         setupTimerStackView()
-//        setupPageControl()
+        setupPageControlStackView()
+        setupBottomControlsStackView()
+        setupUturnBackwardButton()
     }
 
     private func setupNavigationBar() {
@@ -180,10 +225,10 @@ class GameProcessViewController: UIViewController {
         }
         
         
-        NSLayoutConstraint.activate([
-            scoreButtonsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            scoreButtonsStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -74.0)
-        ])
+//        NSLayoutConstraint.activate([
+//            scoreButtonsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            scoreButtonsStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -74.0)
+//        ])
     }
     
     private func setupControlsGameProcessStackView() {
@@ -204,10 +249,10 @@ class GameProcessViewController: UIViewController {
         controlsGameProcessStackView.addArrangedSubview(mainScoreButton)
         controlsGameProcessStackView.addArrangedSubview(arrowRightButton)
         
-        NSLayoutConstraint.activate([
-            controlsGameProcessStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            controlsGameProcessStackView.bottomAnchor.constraint(equalTo: scoreButtonsStackView.topAnchor, constant: -22.0)
-        ])
+//        NSLayoutConstraint.activate([
+//            controlsGameProcessStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            controlsGameProcessStackView.bottomAnchor.constraint(equalTo: scoreButtonsStackView.topAnchor, constant: -22.0)
+//        ])
         
     }
     
@@ -249,6 +294,56 @@ class GameProcessViewController: UIViewController {
             timerLabel.timerState = .pause
         }
         
+    }
+    
+    private func setupPageControlStackView() {
+        view.addSubview(pageControlStackView)
+        
+        let players = ["Kate", "John", "Bety"]
+        
+        players.forEach { name in
+            let playerControlLabel = UILabel()
+            playerControlLabel.text = name.prefix(1).uppercased()
+            playerControlLabel.font = UIFont(name: "Nunito-ExtraBold", size: 20.0)
+            playerControlLabel.textColor = UIColor(rgb: 0x3B3B3B)
+            playerControlLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+            pageControlStackView.addArrangedSubview(playerControlLabel)
+        }
+        
+        
+//        NSLayoutConstraint.activate([
+//            pageControlStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            pageControlStackView.topAnchor.constraint(equalTo: scoreButtonsStackView.bottomAnchor, constant: 20.0)
+//        ])
+    }
+    
+    private func setupUturnBackwardButton() {
+        view.addSubview(uturnBackwardButton)
+        
+        NSLayoutConstraint.activate([
+            uturnBackwardButton.centerYAnchor.constraint(equalTo: pageControlStackView.centerYAnchor),
+            uturnBackwardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40.0)
+        ])
+    }
+    
+    @objc private func uturnBackwardButtonHandler(_ sender: Any) {
+        print("uturn backward button tapped")
+    }
+    
+    private func setupBottomControlsStackView() {
+        view.addSubview(bottomControlsStackView)
+        
+        bottomControlsStackView.addArrangedSubview(controlsGameProcessStackView)
+        bottomControlsStackView.addArrangedSubview(scoreButtonsStackView)
+        bottomControlsStackView.addArrangedSubview(pageControlStackView)
+        
+        NSLayoutConstraint.activate([
+            bottomControlsStackView.topAnchor.constraint(equalTo: playersCollectionView.bottomAnchor, constant: 28.0),
+            bottomControlsStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30.0),
+            bottomControlsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomControlsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
     
 //    private func setupPageControl() {
