@@ -13,7 +13,7 @@ class GameProcessViewController: UIViewController {
     
     weak var newGameViewController: NewGameViewControllerProtocol!
     
-    lazy var collectionView: UICollectionView = {
+    lazy var playersCollectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -33,6 +33,72 @@ class GameProcessViewController: UIViewController {
         
         return view
     }()
+    
+    let scoreButtonsStackView: UIStackView = {
+        let view = UIStackView()
+        
+        view.axis = .horizontal
+        view.spacing = 15.0
+        view.alignment = .fill
+        view.distribution = .equalSpacing
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    let controlsGameProcessStackView: UIStackView = {
+        let view = UIStackView()
+        
+        view.axis = .horizontal
+        view.spacing = 62.0
+        view.alignment = .center
+        view.distribution = .equalSpacing
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    let timerStackView: UIStackView = {
+        let view = UIStackView()
+        
+        view.axis = .horizontal
+        view.spacing = 20.0
+        view.alignment = .center
+        view.distribution = .equalSpacing
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    let timerLabel = TimerLabel(state: .play)
+    
+//    let pageControlUndoStackView: UIStackView = {
+//        let view = UIStackView()
+//
+//        view.axis = .horizontal
+//        view.spacing
+//
+//        return view
+//    }()
+    
+    let pageControl: UIPageControl = {
+        let view = UIPageControl()
+        
+        view.pageIndicatorTintColor = .gray
+        view.currentPageIndicatorTintColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    var currentPage = 0 {
+        didSet {
+            pageControl.currentPage = currentPage
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +110,11 @@ class GameProcessViewController: UIViewController {
         view.backgroundColor = UIColor(rgb: 0x232323)
         
         setupNavigationBar()
-        setupCollectionView()
+        setupPlayersCollectionView()
+        setupScoreButtonsStackView()
+        setupControlsGameProcessStackView()
+        setupTimerStackView()
+//        setupPageControl()
     }
 
     private func setupNavigationBar() {
@@ -79,16 +149,117 @@ class GameProcessViewController: UIViewController {
         print("Results Tapped")
     }
     
-    private func setupCollectionView() {
-        view.addSubview(collectionView)
+    private func setupPlayersCollectionView() {
+        view.addSubview(playersCollectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 300.0)
+            playersCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            playersCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            playersCollectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            playersCollectionView.heightAnchor.constraint(equalToConstant: 300.0)
         ])
     }
+    
+    private func setupScoreButtonsStackView() {
+        view.addSubview(scoreButtonsStackView)
+        
+        let scoreButtons = [
+            ScoreButton(scorePoint: -10),
+            ScoreButton(scorePoint: -5),
+            ScoreButton(scorePoint: -1),
+            ScoreButton(scorePoint: +5),
+            ScoreButton(scorePoint: +10),
+        ]
+        
+        scoreButtons.forEach { button in
+            button.heightAnchor.constraint(equalToConstant: 55.0).isActive = true
+            button.widthAnchor.constraint(equalToConstant: 55.0).isActive = true
+            button.addTarget(self, action: #selector(scoreButtonHandler(_:)), for: .touchUpInside)
+            
+            scoreButtonsStackView.addArrangedSubview(button)
+        }
+        
+        
+        NSLayoutConstraint.activate([
+            scoreButtonsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            scoreButtonsStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -74.0)
+        ])
+    }
+    
+    private func setupControlsGameProcessStackView() {
+        view.addSubview(controlsGameProcessStackView)
+        
+        let mainScoreButton = ScoreButton(scorePoint: +1, size: .big)
+        mainScoreButton.addTarget(self, action: #selector(scoreButtonHandler(_:)), for: .touchUpInside)
+        mainScoreButton.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
+        mainScoreButton.widthAnchor.constraint(equalToConstant: 90.0).isActive = true
+        
+        let arrowRightButton = ArrowButton(direction: .right, state: .normal)
+        arrowRightButton.addTarget(self, action: #selector(arrowButtonHandler(_:)), for: .touchUpInside)
+        
+        let arrowLeftButton = ArrowButton(direction: .left, state: .border)
+        arrowLeftButton.addTarget(self, action: #selector(arrowButtonHandler(_:)), for: .touchUpInside)
+        
+        controlsGameProcessStackView.addArrangedSubview(arrowLeftButton)
+        controlsGameProcessStackView.addArrangedSubview(mainScoreButton)
+        controlsGameProcessStackView.addArrangedSubview(arrowRightButton)
+        
+        NSLayoutConstraint.activate([
+            controlsGameProcessStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            controlsGameProcessStackView.bottomAnchor.constraint(equalTo: scoreButtonsStackView.topAnchor, constant: -22.0)
+        ])
+        
+    }
+    
+    @objc private func scoreButtonHandler(_ sender: Any) {
+        let scoreButton = sender as! ScoreButton
+        print(scoreButton.scorePoint)
+    }
+    
+    @objc private func arrowButtonHandler(_ sender: Any) {
+        let arrowButton = sender as! ArrowButton
+        print("direction: \(arrowButton.arrowDirection), state: \(arrowButton.arrowState)")
+        
+    }
+    
+    private func setupTimerStackView() {
+        view.addSubview(timerStackView)
+        
+        let timerButton = TimerButton(state: .play)
+        timerButton.addTarget(self, action: #selector(timerButtonHandler(_:)), for: .touchUpInside)
+        
+        timerStackView.addArrangedSubview(timerLabel)
+        timerStackView.addArrangedSubview(timerButton)
+        
+        NSLayoutConstraint.activate([
+            timerStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            timerStackView.bottomAnchor.constraint(equalTo: playersCollectionView.topAnchor, constant: -42.0)
+        ])
+    }
+    
+    @objc private func timerButtonHandler(_ sender:Any) {
+        let timerButton = sender as! TimerButton
+        
+        switch timerButton.timerState {
+        case .play:
+            timerButton.timerState = .pause
+            timerLabel.timerState = .play
+        case .pause:
+            timerButton.timerState = .play
+            timerLabel.timerState = .pause
+        }
+        
+    }
+    
+//    private func setupPageControl() {
+//        view.addSubview(pageControl)
+//
+//        NSLayoutConstraint.activate([
+//            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            pageControl.topAnchor.constraint(equalTo: scoreButtonsStackView.bottomAnchor, constant: -20.0),
+//            pageControl.heightAnchor.constraint(equalToConstant: 20.0)
+//        ])
+//    }
     
 }
 
@@ -139,5 +310,31 @@ extension GameProcessViewController: UICollectionViewDataSource {
 }
 
 extension GameProcessViewController: UICollectionViewDelegate {
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        currentPage = getCurrenPage()
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        currentPage = getCurrenPage()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        currentPage = getCurrenPage()
+    }
+    
+}
+
+private extension GameProcessViewController {
+    
+    func getCurrenPage() -> Int {
+        let visibleRect = CGRect(origin: playersCollectionView.contentOffset, size: playersCollectionView.bounds.size)
+        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+        if let visibleIndexPath = playersCollectionView.indexPathForItem(at: visiblePoint) {
+            return visibleIndexPath.row
+        }
+        
+        return currentPage
+    }
     
 }

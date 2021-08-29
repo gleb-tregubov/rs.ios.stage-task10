@@ -25,6 +25,10 @@
 		53EC7E9426DA677D0055565A /* GameProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC7E9326DA677D0055565A /* GameProcessViewController.swift */; };
 		53EC7E9726DA998C0055565A /* PlayerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC7E9626DA998C0055565A /* PlayerCollectionViewCell.swift */; };
 		53EC7E9926DA9DD90055565A /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53EC7E9826DA9DD90055565A /* Nunito-Bold.ttf */; };
+		53EC7E9B26DB192D0055565A /* ScoreButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC7E9A26DB192D0055565A /* ScoreButton.swift */; };
+		53EC7E9D26DB70B60055565A /* ArrowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC7E9C26DB70B60055565A /* ArrowButton.swift */; };
+		53EC7E9F26DB93620055565A /* TimerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC7E9E26DB93620055565A /* TimerButton.swift */; };
+		53EC7EA126DB98190055565A /* TimerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC7EA026DB98190055565A /* TimerLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +52,10 @@
 		53EC7E9326DA677D0055565A /* GameProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameProcessViewController.swift; sourceTree = "<group>"; };
 		53EC7E9626DA998C0055565A /* PlayerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCollectionViewCell.swift; sourceTree = "<group>"; };
 		53EC7E9826DA9DD90055565A /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
+		53EC7E9A26DB192D0055565A /* ScoreButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreButton.swift; sourceTree = "<group>"; };
+		53EC7E9C26DB70B60055565A /* ArrowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowButton.swift; sourceTree = "<group>"; };
+		53EC7E9E26DB93620055565A /* TimerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerButton.swift; sourceTree = "<group>"; };
+		53EC7EA026DB98190055565A /* TimerLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +219,10 @@
 			isa = PBXGroup;
 			children = (
 				53EC7E9626DA998C0055565A /* PlayerCollectionViewCell.swift */,
+				53EC7E9A26DB192D0055565A /* ScoreButton.swift */,
+				53EC7E9C26DB70B60055565A /* ArrowButton.swift */,
+				53EC7E9E26DB93620055565A /* TimerButton.swift */,
+				53EC7EA026DB98190055565A /* TimerLabel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -291,12 +303,16 @@
 				53E3306A26D7E6490046E7EC /* StartGameButton.swift in Sources */,
 				53E3305A26D672D20046E7EC /* NavigationViewController.swift in Sources */,
 				535B10AB26D959DB007E9F48 /* PlayerTableViewCell.swift in Sources */,
+				53EC7E9F26DB93620055565A /* TimerButton.swift in Sources */,
 				53E3303F26D66DF40046E7EC /* AppDelegate.swift in Sources */,
 				53E3304126D66DF40046E7EC /* SceneDelegate.swift in Sources */,
 				53EC7E9726DA998C0055565A /* PlayerCollectionViewCell.swift in Sources */,
+				53EC7E9B26DB192D0055565A /* ScoreButton.swift in Sources */,
 				53E3305F26D67ACD0046E7EC /* Helpers.swift in Sources */,
 				53EC7E9426DA677D0055565A /* GameProcessViewController.swift in Sources */,
+				53EC7E9D26DB70B60055565A /* ArrowButton.swift in Sources */,
 				53E3307126D91A6E0046E7EC /* PlayerNameTextField.swift in Sources */,
+				53EC7EA126DB98190055565A /* TimerLabel.swift in Sources */,
 				53E3306E26D90FE50046E7EC /* AddPlayerViewController.swift in Sources */,
 				53E3306626D74ECA0046E7EC /* PlayersTabelHeaderFooterView.swift in Sources */,
 				53E3305626D671EF0046E7EC /* NewGameViewController.swift in Sources */,
