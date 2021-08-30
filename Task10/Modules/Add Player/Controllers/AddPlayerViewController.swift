@@ -8,7 +8,7 @@
 import UIKit
 
 protocol NewGameViewControllerProtocol : AnyObject {
-    var players: [String] { get set }
+    var players: [Player] { get set }
     
     func addNewPlayer(name newPlayer: String)
 }

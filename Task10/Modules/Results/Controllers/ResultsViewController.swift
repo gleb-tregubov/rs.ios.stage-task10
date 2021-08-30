@@ -9,8 +9,11 @@ import UIKit
 
 class ResultsViewController: UIViewController {
     
-    var players = ["Kate", "John", "Betty", "Dave"]
-    var scores = [20, 15, 0, 10]
+    weak var gameProcessViewController: GameProcessViewController!
+    
+//    var players = ["Kate", "John", "Betty", "Dave"]
+    var players: [Player]!
+//    var scores = [20, 15, 0, 10]
     
     let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -39,14 +42,22 @@ class ResultsViewController: UIViewController {
     var tableViewHeightConstraint: NSLayoutConstraint!
     var tableViewBottomConstraint: NSLayoutConstraint!
     
-    var tableViewHeight: CGFloat {
-        (CGFloat(players.count + 1) * resultsTableView.rowHeight)
-    }
+//    var tableViewHeight: CGFloat {
+//        (CGFloat(players.count + 1) * resultsTableView.rowHeight)
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        players = gameProcessViewController.players
 
         setupAppearance()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        players = gameProcessViewController.players
+        
+        resultsTableView.reloadData()
     }
     
     private func setupAppearance() {
@@ -81,7 +92,7 @@ class ResultsViewController: UIViewController {
     }
     
     @objc private func newGameTapped() {
-        
+        navigationController?.popToRootViewController(animated: true)
     }
     
     @objc private func resumeTapped() {
@@ -101,6 +112,8 @@ class ResultsViewController: UIViewController {
     
     private func setupResultsTableView() {
         scrollView.addSubview(resultsTableView)
+        
+        let tableViewHeight: CGFloat = (CGFloat(players.count + 1) * resultsTableView.rowHeight)
         
         tableViewHeightConstraint = NSLayoutConstraint(item: resultsTableView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: tableViewHeight)
         
@@ -131,7 +144,7 @@ extension ResultsViewController: UITableViewDelegate, UITableViewDataSource {
         let rankPlaceAttribute = [ NSAttributedString.Key.foregroundColor: UIColor.white ]
         let attributedRankPlaceString = NSAttributedString(string: rankPlace, attributes: rankPlaceAttribute)
 
-        let playerName = players[indexPath.row]
+        let playerName = players[indexPath.row].name
         let playerNameAttribute = [ NSAttributedString.Key.foregroundColor: UIColor(rgb: 0xEBAE68) ]
         let attributedPlayerNameString = NSAttributedString(string: playerName, attributes: playerNameAttribute)
 
@@ -146,7 +159,7 @@ extension ResultsViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = UIColor.clear
         cell.textLabel?.attributedText = attributedCompositionString
 
-        cell.detailTextLabel?.text = "\(scores[indexPath.row])"
+        cell.detailTextLabel?.text = "\(players[indexPath.row].score)"
         cell.detailTextLabel?.textColor = UIColor.white
         cell.textLabel?.font = UIFont(name: "Nunito-ExtraBold", size: 28.0)
         cell.detailTextLabel?.font = UIFont(name: "Nunito-ExtraBold", size: 28.0)

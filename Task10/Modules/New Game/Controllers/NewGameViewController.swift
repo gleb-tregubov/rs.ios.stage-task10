@@ -9,8 +9,8 @@ import UIKit
 
 class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
     
-//    var players = [String]()
-    var players = ["Kate", "John", "Betty"]
+    var players = [Player]()
+//    var players = ["Kate", "John", "Betty"]
 //    var players = ["Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty", "Dave", "Betty", "Kate", "John", "Betty"]
     
     //TODO: - Посмотреть демо по Table View
@@ -110,7 +110,7 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
         
         tableViewHeightConstraint = NSLayoutConstraint(item: playersTableView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: tableViewHeight)
         
-        tableViewBottomConstraint = NSLayoutConstraint(item: playersTableView, attribute: .bottom, relatedBy: .equal, toItem: startButton, attribute: .top, multiplier: 1.0, constant: -256.0) // ??????????????
+        tableViewBottomConstraint = NSLayoutConstraint(item: playersTableView, attribute: .bottom, relatedBy: .equal, toItem: startButton, attribute: .top, multiplier: 1.0, constant: -460.0) // ??????????????
         
     
         NSLayoutConstraint.activate([
@@ -164,6 +164,10 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
     @objc private func startButtonHandler() {
         print(players)
         
+        players = players.map({ player in
+            Player(name: player.name, score: 0)
+        })
+        gameProcessViewController.players = players
         gameProcessViewController.newGameViewController = self
         navigationController?.pushViewController(gameProcessViewController, animated: true)
     }
@@ -197,7 +201,7 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: PlayerTableViewCell.reuseIdentifier) as! PlayerTableViewCell
             
-            cell.playerNameTextField.text = players[indexPath.row]
+            cell.playerNameTextField.text = players[indexPath.row].name
             cell.playerNameTextField.delegate = self
 //            hiddenWhenTappedAround()
             cell.playerNameTextField.addTarget(self, action: #selector(playerNameChanged(_ :)), for: .editingChanged)
@@ -303,9 +307,11 @@ extension NewGameViewController : UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - Public Interface | NewGameViewController Protocol
 extension NewGameViewController {
-    func addNewPlayer(name newPlayer: String) {
+    func addNewPlayer(name playerName: String) {
         
         playersTableView.beginUpdates()
+        
+        let newPlayer = Player(name: playerName)
         
         players.append(newPlayer)
         playersTableView.insertRows(at: [IndexPath(row: players.count - 1, section: 0)], with: .fade) // НЕУВЕРЕН
@@ -353,9 +359,9 @@ extension NewGameViewController: UITextFieldDelegate {
 
         let indexPath = playersTableView.indexPath(for: cell)!
 
-        let updatePalyerName = cell.playerNameTextField.text
+        let updatePlayerName = cell.playerNameTextField.text
 
-        players[indexPath.row] = updatePalyerName ?? ""
+        players[indexPath.row].name = updatePlayerName ?? ""
 
     }
     

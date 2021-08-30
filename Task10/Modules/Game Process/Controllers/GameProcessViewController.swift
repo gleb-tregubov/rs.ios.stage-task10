@@ -9,7 +9,7 @@ import UIKit
 
 class GameProcessViewController: UIViewController {
     
-    var players: [String]!
+    var players: [Player]!
     
     weak var newGameViewController: NewGameViewControllerProtocol!
     var resultsViewConroller = ResultsViewController()
@@ -147,7 +147,18 @@ class GameProcessViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        players = newGameViewController.players
+        
         setupAppearance()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+//        players = newGameViewController.players
+        
+        pageControlStackView.setNeedsDisplay()
+        
+        playersCollectionView.reloadData()
     }
     
     private func setupAppearance() {
@@ -188,10 +199,12 @@ class GameProcessViewController: UIViewController {
     }
     
     @objc func newGameTapped() {
-        print("New Game Tapped")
+        navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func resultsTapped() {
+        
+        resultsViewConroller.gameProcessViewController = self
         navigationController?.pushViewController(resultsViewConroller, animated: true)
     }
     
@@ -259,11 +272,58 @@ class GameProcessViewController: UIViewController {
     
     @objc private func scoreButtonHandler(_ sender: Any) {
         let scoreButton = sender as! ScoreButton
-        print(scoreButton.scorePoint)
+        
+        let currentPage = getCurrentPage()
+        let corePoint = scoreButton.scorePoint
+        
+        players[currentPage].score += corePoint
+        playersCollectionView.reloadItems(at: [IndexPath(row: currentPage, section: 0)])
+        
+//        playersCollectionView.scrollToItem(at: IndexPath(row: currentPage + 1, section: 0), at: .bottom, animated: true)
+        
+        
+//        print(scoreButton.scorePoint)
     }
     
     @objc private func arrowButtonHandler(_ sender: Any) {
         let arrowButton = sender as! ArrowButton
+        
+        let currentPage = getCurrentPage()
+        
+        switch arrowButton.arrowDirection {
+        case .right:
+            if currentPage == players.count - 1 {
+                (controlsGameProcessStackView.arrangedSubviews[0] as! ArrowButton).arrowState = .border
+            } else {
+                (controlsGameProcessStackView.arrangedSubviews[0] as! ArrowButton).arrowState = .normal
+            }
+            playersCollectionView.scrollToItem(at: IndexPath(row: currentPage + 1, section: 0), at: .bottom, animated: true)
+            if currentPage == players.count - 2 {
+                arrowButton.arrowState = .border
+            } else {
+                arrowButton.arrowState = .normal
+            }
+        case .left:
+            if currentPage == 0 {
+                (controlsGameProcessStackView.arrangedSubviews[2] as! ArrowButton).arrowState = .border
+            } else {
+                (controlsGameProcessStackView.arrangedSubviews[2] as! ArrowButton).arrowState = .normal
+            }
+            if currentPage == 0 {
+                playersCollectionView.scrollToItem(at: IndexPath(row: players.count - 1, section: 0), at: .bottom, animated: true)
+            } else {
+                playersCollectionView.scrollToItem(at: IndexPath(row: currentPage - 1, section: 0), at: .bottom, animated: true)
+
+            }
+            if currentPage == 1 {
+                arrowButton.arrowState = .border
+            } else {
+                arrowButton.arrowState = .normal
+            }
+        }
+        
+//        playersCollectionView.scrollToItem(at: IndexPath(row: currentPage + 1, section: 0), at: .bottom, animated: true)
+        
         print("direction: \(arrowButton.arrowDirection), state: \(arrowButton.arrowState)")
         
     }
@@ -300,11 +360,11 @@ class GameProcessViewController: UIViewController {
     private func setupPageControlStackView() {
         view.addSubview(pageControlStackView)
         
-        let players = ["Kate", "John", "Bety"]
+//        let players = ["Kate", "John", "Bety"]
         
-        players.forEach { name in
+        players.forEach { player in
             let playerControlLabel = UILabel()
-            playerControlLabel.text = name.prefix(1).uppercased()
+            playerControlLabel.text = player.name.prefix(1).uppercased()
             playerControlLabel.font = UIFont(name: "Nunito-ExtraBold", size: 20.0)
             playerControlLabel.textColor = UIColor(rgb: 0x3B3B3B)
             playerControlLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -389,14 +449,14 @@ extension GameProcessViewController: UICollectionViewDelegateFlowLayout {
 
 extension GameProcessViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return players.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlayerCollectionViewCell.reuseIdentifier, for: indexPath) as! PlayerCollectionViewCell
         
-        cell.playerNameLabel.text = "Name".uppercased()
-        cell.playerScoreLabel.text = "99"
+        cell.playerNameLabel.text = players[indexPath.row].name.uppercased()
+        cell.playerScoreLabel.text = "\(players[indexPath.row].score)"
         
         
         return cell
@@ -408,22 +468,39 @@ extension GameProcessViewController: UICollectionViewDataSource {
 extension GameProcessViewController: UICollectionViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        currentPage = getCurrenPage()
+        currentPage = getCurrentPage()
+        
+        if true {
+            if currentPage == players.count - 1 {
+                (controlsGameProcessStackView.arrangedSubviews[2] as! ArrowButton).arrowState = .border
+            } else {
+                (controlsGameProcessStackView.arrangedSubviews[2] as! ArrowButton).arrowState = .normal
+            }
+        
+            if currentPage == 0 {
+                (controlsGameProcessStackView.arrangedSubviews[0] as! ArrowButton).arrowState = .border
+            } else {
+                (controlsGameProcessStackView.arrangedSubviews[0] as! ArrowButton).arrowState = .normal
+            }
+        }
+        
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        currentPage = getCurrenPage()
+        currentPage = getCurrentPage()
+        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        currentPage = getCurrenPage()
+        currentPage = getCurrentPage()
+        
     }
     
 }
 
 private extension GameProcessViewController {
     
-    func getCurrenPage() -> Int {
+    func getCurrentPage() -> Int {
         let visibleRect = CGRect(origin: playersCollectionView.contentOffset, size: playersCollectionView.bounds.size)
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
         if let visibleIndexPath = playersCollectionView.indexPathForItem(at: visiblePoint) {

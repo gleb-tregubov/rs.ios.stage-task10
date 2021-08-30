@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5343D5AF26DD037C00B8E9A8 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5343D5AE26DD037C00B8E9A8 /* ResultsViewController.swift */; };
 		5343D5B126DD238700B8E9A8 /* ResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5343D5B026DD238700B8E9A8 /* ResultsTableViewCell.swift */; };
+		5343D5B426DD490900B8E9A8 /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5343D5B326DD490900B8E9A8 /* PlayerModel.swift */; };
 		535B10AB26D959DB007E9F48 /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B10AA26D959DB007E9F48 /* PlayerTableViewCell.swift */; };
 		53E3303F26D66DF40046E7EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3303E26D66DF40046E7EC /* AppDelegate.swift */; };
 		53E3304126D66DF40046E7EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3304026D66DF40046E7EC /* SceneDelegate.swift */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		5343D5AE26DD037C00B8E9A8 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		5343D5B026DD238700B8E9A8 /* ResultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewCell.swift; sourceTree = "<group>"; };
+		5343D5B326DD490900B8E9A8 /* PlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
 		535B10AA26D959DB007E9F48 /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
 		53E3303B26D66DF40046E7EC /* Task10.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Task10.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53E3303E26D66DF40046E7EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +100,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		5343D5B226DD48F500B8E9A8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5343D5B326DD490900B8E9A8 /* PlayerModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		53E3303226D66DF40046E7EC = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +127,7 @@
 		53E3303D26D66DF40046E7EC /* Task10 */ = {
 			isa = PBXGroup;
 			children = (
+				5343D5B226DD48F500B8E9A8 /* Model */,
 				53E3306026D687490046E7EC /* Fonts */,
 				53E3305726D672770046E7EC /* Modules */,
 				53E3305426D671C80046E7EC /* Controllers */,
@@ -347,6 +358,7 @@
 				53EC7EA126DB98190055565A /* TimerLabel.swift in Sources */,
 				53E3306E26D90FE50046E7EC /* AddPlayerViewController.swift in Sources */,
 				53E3306626D74ECA0046E7EC /* PlayersTabelHeaderFooterView.swift in Sources */,
+				5343D5B426DD490900B8E9A8 /* PlayerModel.swift in Sources */,
 				53E3305626D671EF0046E7EC /* NewGameViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
