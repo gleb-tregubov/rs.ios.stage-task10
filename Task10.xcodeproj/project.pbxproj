@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5343D5AF26DD037C00B8E9A8 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5343D5AE26DD037C00B8E9A8 /* ResultsViewController.swift */; };
+		5343D5B126DD238700B8E9A8 /* ResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5343D5B026DD238700B8E9A8 /* ResultsTableViewCell.swift */; };
 		535B10AB26D959DB007E9F48 /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B10AA26D959DB007E9F48 /* PlayerTableViewCell.swift */; };
 		53E3303F26D66DF40046E7EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3303E26D66DF40046E7EC /* AppDelegate.swift */; };
 		53E3304126D66DF40046E7EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E3304026D66DF40046E7EC /* SceneDelegate.swift */; };
@@ -32,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5343D5AE26DD037C00B8E9A8 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
+		5343D5B026DD238700B8E9A8 /* ResultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewCell.swift; sourceTree = "<group>"; };
 		535B10AA26D959DB007E9F48 /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
 		53E3303B26D66DF40046E7EC /* Task10.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Task10.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53E3303E26D66DF40046E7EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +73,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5343D5AB26DD033300B8E9A8 /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				5343D5AD26DD034C00B8E9A8 /* Controllers */,
+				5343D5AC26DD034200B8E9A8 /* Views */,
+			);
+			path = Results;
+			sourceTree = "<group>";
+		};
+		5343D5AC26DD034200B8E9A8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5343D5B026DD238700B8E9A8 /* ResultsTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5343D5AD26DD034C00B8E9A8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5343D5AE26DD037C00B8E9A8 /* ResultsViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		53E3303226D66DF40046E7EC = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +158,7 @@
 		53E3305726D672770046E7EC /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				5343D5AB26DD033300B8E9A8 /* Results */,
 				53EC7E9126DA673B0055565A /* Game Process */,
 				53E3306B26D90FB40046E7EC /* Add Player */,
 				53E3305826D672880046E7EC /* New Game */,
@@ -302,9 +332,11 @@
 			files = (
 				53E3306A26D7E6490046E7EC /* StartGameButton.swift in Sources */,
 				53E3305A26D672D20046E7EC /* NavigationViewController.swift in Sources */,
+				5343D5B126DD238700B8E9A8 /* ResultsTableViewCell.swift in Sources */,
 				535B10AB26D959DB007E9F48 /* PlayerTableViewCell.swift in Sources */,
 				53EC7E9F26DB93620055565A /* TimerButton.swift in Sources */,
 				53E3303F26D66DF40046E7EC /* AppDelegate.swift in Sources */,
+				5343D5AF26DD037C00B8E9A8 /* ResultsViewController.swift in Sources */,
 				53E3304126D66DF40046E7EC /* SceneDelegate.swift in Sources */,
 				53EC7E9726DA998C0055565A /* PlayerCollectionViewCell.swift in Sources */,
 				53EC7E9B26DB192D0055565A /* ScoreButton.swift in Sources */,

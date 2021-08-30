@@ -12,6 +12,7 @@ class GameProcessViewController: UIViewController {
     var players: [String]!
     
     weak var newGameViewController: NewGameViewControllerProtocol!
+    var resultsViewConroller = ResultsViewController()
     
     lazy var playersCollectionView: UICollectionView = {
         
@@ -191,7 +192,7 @@ class GameProcessViewController: UIViewController {
     }
     
     @objc func resultsTapped() {
-        print("Results Tapped")
+        navigationController?.pushViewController(resultsViewConroller, animated: true)
     }
     
     private func setupPlayersCollectionView() {

@@ -18,13 +18,13 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
     //TODO: - custom table view cell
     
     var addPlayerViewController = AddPlayerViewController()
-    var gameProcessViewVontroller = GameProcessViewController()
+    var gameProcessViewController = GameProcessViewController()
     
     // MARK: - Views
     let playersTableView: UITableView = {
         let view = UITableView()
         
-        view.register(UITableViewCell.self, forCellReuseIdentifier: "PlayerCellId")
+        view.register(UITableViewCell.self, forCellReuseIdentifier: "PlayerC{ellId")
         view.register(UITableViewCell.self, forCellReuseIdentifier: "AddPlayerCellId")
         view.register(PlayerTableViewCell.self, forCellReuseIdentifier: PlayerTableViewCell.reuseIdentifier)
         
@@ -110,7 +110,7 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
         
         tableViewHeightConstraint = NSLayoutConstraint(item: playersTableView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: tableViewHeight)
         
-        tableViewBottomConstraint = NSLayoutConstraint(item: playersTableView, attribute: .bottom, relatedBy: .equal, toItem: startButton, attribute: .top, multiplier: 1.0, constant: -256.0)
+        tableViewBottomConstraint = NSLayoutConstraint(item: playersTableView, attribute: .bottom, relatedBy: .equal, toItem: startButton, attribute: .top, multiplier: 1.0, constant: -256.0) // ??????????????
         
     
         NSLayoutConstraint.activate([
@@ -141,10 +141,10 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
 //        subscribeForKeyboardNotifications()
         
         NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -164,8 +164,8 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
     @objc private func startButtonHandler() {
         print(players)
         
-        gameProcessViewVontroller.newGameViewController = self
-        navigationController?.pushViewController(gameProcessViewVontroller, animated: true)
+        gameProcessViewController.newGameViewController = self
+        navigationController?.pushViewController(gameProcessViewController, animated: true)
     }
 
 }
