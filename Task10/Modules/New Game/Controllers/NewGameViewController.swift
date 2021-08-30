@@ -123,10 +123,11 @@ class NewGameViewController: UIViewController, NewGameViewControllerProtocol {
         
         // TODO: - Refactoring
         
-        // NewGameViewController закрыть протоколом с нужными пропертями в виде модели и другими
+        // NewGameViewController закрыть протоколом с нужными пропертями в виде модели
         // PlayersTableDelegate подписать под tableViewDataSource, и talbeViewDelegate
         // let playersTableDelegate = PlayersTableDelegate()
-        // playersTableDelegate.parent = self (Проперти parent сделать weak варом) || нет, делегата может не быть потэтому у self контроллера делегатное проперти - weak var
+        // playersTableDelegate.parent = self (Проперти parent сделать weak варом)
+        //хотя нет, делегата может не быть потэтому у self контроллера делегатное проперти - weak var
         // playersTableView.delegate = playersTableDelegate
         // playersTableView.delegate = playersTableDelegate
         
